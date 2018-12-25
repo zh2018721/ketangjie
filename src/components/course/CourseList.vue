@@ -23,9 +23,10 @@
 </template>
 
 <script>
+import {getCourseList} from '@/api/course';
 
 export default {
-  name: 'HelloWorld',
+  name: 'CourseList',
   data () {
     return {
       list:[]
@@ -33,26 +34,24 @@ export default {
   },
   methods:{
     open(courseid){
-      this.$router.push('/course',{
-        id:courseid
-      })
+      
     }
   },
   mounted(){
-    
-   this.$post(`/Json/index.php?act=Microportal.allnewList`,{
+    getCourseList({
       type:2,
-      courseType:4,
+      courseType:1,
       from:1,
       p:1,
-      maxperpage:10
+      maxperpage:4
+    }).then(res=>{
+      
+      res.list[0].defaultpic = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546306648&di=8d3d5f9ce08d123d8d25d0ca023e128d&imgtype=jpg&er=1&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20181201%2F35298b90414345ca961b7af63014c701.jpeg';
+      res.list[1].defaultpic = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1545711694469&di=5c9ac218cd085436bc7d8125c6a06818&imgtype=0&src=http%3A%2F%2Fimgs.tom.com%2Flyzx%2F201811%2FCONTENTA4FD8771010B48FD.jpg'
+      this.list = res.list;
     })
-    .then(res=>{
-      let allnewList = res.data.allnewList;
-      allnewList.list[0].defaultpic = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1545482022229&di=e7c86aaafa7e5a2cae975c5367d0febb&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20181221%2F0c8dcae3a20e4ef082189e9e7f5c60eb.jpeg';
-      allnewList.list[1].defaultpic = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1545482099948&di=c6cd6162b49062bfb1f96f30af8774bd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20140613%2FImg400819036.jpg'
-      this.list = allnewList.list;
-    })
+   
+    
     
   }
 
